@@ -16,7 +16,6 @@ public class CameraMovement : MonoBehaviour
 
     private float verticalRotation = 0;
 
-
     private void Start()
     {
         MouseLocker.LockMouse();
