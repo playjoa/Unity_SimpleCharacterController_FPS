@@ -10,7 +10,6 @@ public static class MouseLocker
 
     public static void FreeMouse()
     {
-
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
