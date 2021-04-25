@@ -31,14 +31,10 @@ public class CameraMovement : MonoBehaviour
 
         //TEMPORARY
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
             MouseLocker.FreeMouse();
-        }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            MouseLocker.LockMouse();
-        }
+            MouseLocker.LockMouse();  
     }
 
     public void OverrideLookAt(Transform targetToLook)
