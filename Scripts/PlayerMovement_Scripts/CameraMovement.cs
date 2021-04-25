@@ -68,6 +68,6 @@ public class CameraMovement : MonoBehaviour
         verticalRotation -= Y_ValueWithSens();
         verticalRotation = Mathf.Clamp(verticalRotation, minClampVertical, maxClampHorizontal);
 
-        cameraTranform.localRotation =Quaternion.Euler(verticalRotation, 0f, 0f);
+        cameraTranform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
     }
 }
