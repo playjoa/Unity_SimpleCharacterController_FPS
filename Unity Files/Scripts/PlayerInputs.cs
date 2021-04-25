@@ -29,4 +29,9 @@ public static class PlayerInputs
     {
         return Input.GetMouseButtonDown(0);
     }
+
+    public static bool PressedJump()
+    {
+        return Input.GetButtonDown("Jump");
+    }
 }

@@ -28,6 +28,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private LayerMask groundMask;
 
+    [SerializeField]
+    private bool canJump = true;
+
+    [SerializeField]
+    private float jumpHeight = 2;
+
     private Vector3 gravityVelocity;
     private bool isGrounded;
 
@@ -38,6 +44,14 @@ public class PlayerMovement : MonoBehaviour
 
         MovePlayer();
         CalculateGravity();
+        ProcessJumping();
+    }
+    void MovePlayer()
+    {
+        if (playerTransform == null)
+            return;
+
+        controllerPlayer.Move(PlayerMovementDirection());
     }
 
     void CalculateGravity() 
@@ -48,23 +62,41 @@ public class PlayerMovement : MonoBehaviour
         if (groundChecker == null)
             return;
 
-        isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, groundMask);
+        isGrounded = CheckIfGrounded();
 
-        //Reseting gravity speed
-        if (isGrounded && gravityVelocity.y < 0)
-            gravityVelocity.y = -1.5f;
+        ResetingGravityIfGrounded();
+        ApplyGravity();
+    }
 
+    void ProcessJumping()
+    {
+        if (!canJump)
+            return;
+
+        if (PlayerInputs.PressedJump() && isGrounded)      
+            gravityVelocity.y = JumpForce();      
+    }
+
+    float JumpForce()
+    {
+        return Mathf.Sqrt(jumpHeight * -2f * gravityValue);
+    }
+
+    void ApplyGravity()
+    {
         gravityVelocity.y += gravityValue * Time.deltaTime;
-
         controllerPlayer.Move(gravityVelocity * Time.deltaTime);
     }
 
-    void MovePlayer() 
+    void ResetingGravityIfGrounded()
     {
-        if (playerTransform == null)
-            return;
+        if (isGrounded && gravityVelocity.y < 0)
+            gravityVelocity.y = -1.5f;
+    }
 
-        controllerPlayer.Move(PlayerMovementDirection());
+    bool CheckIfGrounded()
+    {
+        return Physics.CheckSphere(groundChecker.position, groundDistance, groundMask);
     }
 
     Vector3 PlayerMovementDirection()

@@ -32,14 +32,29 @@ public class CameraMovement : MonoBehaviour
 
         //TEMPORARY
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
             MouseLocker.FreeMouse();
-        }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
             MouseLocker.LockMouse();
-        }
+    }
+
+    void CameraVerticalMovement()
+    {
+        if (cameraTranform == null)
+            return;
+
+        verticalRotation -= Y_ValueWithSens();
+        verticalRotation = RotationClamped(verticalRotation);
+
+        cameraTranform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+    }
+
+    void CameraHorizontalMovement()
+    {
+        if (playerTransform == null)
+            return;
+
+        playerTransform.Rotate(Vector3.up * X_ValueWithSens());
     }
 
     public void OverrideLookAt(Transform targetToLook)
@@ -57,22 +72,8 @@ public class CameraMovement : MonoBehaviour
         return PlayerInputs.Camera_Y_Movement() * Time.deltaTime * mouseSensY;
     }
 
-    void CameraHorizontalMovement() 
+    float RotationClamped(float refRotation) 
     {
-        if (playerTransform == null)
-            return;
-
-        playerTransform.Rotate(Vector3.up * X_ValueWithSens());
-    }
-
-    void CameraVerticalMovement()
-    {
-        if (cameraTranform == null)
-            return;
-
-        verticalRotation -= Y_ValueWithSens();
-        verticalRotation = Mathf.Clamp(verticalRotation, minClampVertical, maxClampHorizontal);
-
-        cameraTranform.localRotation =Quaternion.Euler(verticalRotation, 0f, 0f);
+        return Mathf.Clamp(refRotation, minClampVertical, maxClampHorizontal);
     }
 }
