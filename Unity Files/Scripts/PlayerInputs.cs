@@ -9,12 +9,7 @@ public static class PlayerInputs
 
         return new Vector2(xValue, yValue);
     }
-
-    public static Vector2 CameraLookMovement() 
-    {
-        return Vector2.one;
-    }
-
+    
     public static float Camera_X_Movement()
     {
         return Input.GetAxis("Mouse X");
